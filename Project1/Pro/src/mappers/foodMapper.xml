@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="food.service.FoodMapper">
+
+	<!-- 회원 등록 -->
+	<insert id="insertMember" parameterType="m">
+		insert into member(id,pw)
+		values (#{id}, #{pw})
+	</insert>
+
+	<!-- 회원 로그인 -->
+	<select id="searchMember" resultType="m">
+		select id,pw,mileage
+		from member
+		where id = #{id} and pw =#{pw}
+	</select>
+
+	<!-- 회원 탈퇴 -->
+	<delete id="deleteMember">
+		delete member
+		where id = #{id}
+	</delete>
+
+	<!-- 회원 전체 목록 -->
+	<select id="getMemberList" resultType="m">
+		select *
+		from member
+		order by mileage desc
+	</select>
+
+	<!-- 마일리지 변동 -->
+	<update id="changeMile" parameterType="map" >
+		update member
+		set mileage = #{mileage}
+		where id=#{id}
+		
+		
+		
+	</update>
+	<!-- @ 음식점 @ -->
+
+	<!-- 음식점 등록 -->
+	<insert id="insertRestaurant" parameterType="res">
+		insert into restaurant(name,type,price,phonenum,dtime)
+		values (#{name}, #{type}, #{price}, #{phonenum},#{dtime})
+	</insert>
+
+	<!-- 음식점 검색 -->
+	<select id="searchRestaurant" resultType="res">
+		select *
+		from restaurant
+		where name = #{name}
+	</select>
+
+	<!-- 음식점 삭제 -->
+	<delete id="deleteRestaurant">
+		delete restaurant
+		where name = #{name}
+
+	</delete>
+
+	<!-- 음식점 전체검색 -->
+	<select id="allRestaurant" resultType="res">
+		select *
+		from restaurant
+		order by price
+
+	</select>
+
+	<!-- 조회수 증가 -->
+	<update id="addHits">
+		update restaurant
+		set hits = hits+1
+		where name = #{name}
+	</update>
+	<!-- 평점 업데이트 -->
+	<update id="avgRate" parameterType="map" >
+		update restaurant
+		set rate = #{rate}
+		where name=#{name}
+	</update>
+	<!-- 평점매긴사람 수 증가 -->
+	<update id="rperson">
+		update restaurant
+		set rperson = rperson+1
+		where name = #{name}
+	</update>
+	
+	
+	<!--            @ 댓글 @          -->
+	
+	<!-- 댓글 등록 -->
+	<insert id="insertReply" parameterType="c">
+		insert into commentary(id,name,content)
+		values( #{id}, #{name}, #{content})
+	</insert>
+	
+	<!-- 댓글 가져오기 -->
+	<select id="getReplyList" resultType="c">
+		select *
+		from commentary
+		where name=#{name}
+	</select>
+
+	
+	<!-- 게임 기록 생성 -->
+	
+	<insert id="insertRecord" parameterType="rec">
+		insert into record(id)
+		values (#{id})
+	</insert>
+	
+	
+	<!-- 게임 1 -->
+	
+	<update id="gainGame1">
+		update record
+		set game1 = game1+1
+		where id = #{id}
+	</update>
+	<!-- 게임 2 -->
+	<update id="gainGame2">
+		update record
+		set game2 = game2+1
+		where id = #{id}
+	</update>
+	<!-- 게임 3 -->
+	<update id="gainGame3">
+		update record
+		set game3 = game3+1
+		where id = #{id}
+	</update>
+	<!-- 쿠폰 보내기 game1 -->
+	<update id="game1Send" parameterType="map" >
+		update record
+		set game1 = #{game1}
+		where id=#{id}
+		
+		
+		
+	</update>
+	<!-- 쿠폰 보내기 game2 -->
+	<update id="game2Send" parameterType="map" >
+		update record
+		set game2 = #{game2}
+		where id=#{id}
+		
+		
+		
+	</update>
+	<!-- 쿠폰 보내기 game3 -->
+	<update id="game3Send" parameterType="map" >
+		update record
+		set game3 = #{game3}
+		where id=#{id}
+		
+		
+		
+	</update>
+	
+
+	<!-- 게임 기록 -->
+	<select id="allRecord" resultType="rec">
+	select * from
+	record
+	where id=#{id}
+	</select>
+	<!-- 쿠폰 기록 -->
+	<select id="couponRecord" resultType="rec">
+	select * from
+	record
+	
+	
+	
+	</select>
+
+</mapper>
